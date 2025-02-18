@@ -9,15 +9,33 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@lexical/code": "^0.24.0",
+    "@lexical/list": "^0.24.0",
+    "@lexical/react": "^0.24.0",
+    "@lexical/rich-text": "^0.16.1",
+    "@lexical/selection": "^0.24.0",
+    "@lexical/table": "^0.24.0",
+    "@liveblocks/client": "^2.18.2",
+    "@liveblocks/react": "^2.18.2",
+    "@liveblocks/react-lexical": "^2.18.1",
+    "@liveblocks/react-tiptap": "^2.18.2",
+    "@liveblocks/react-ui": "^2.18.2",
+    "@tiptap/react": "^2.11.5",
+    "@tiptap/starter-kit": "^2.11.5",
+    "lexical": "^0.24.0",
+    "next": "15.1.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "next": "15.1.7"
+    "tiptap": "^1.32.2"
   },
   "devDependencies": {
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "@eslint/eslintrc": "^3",
+    "@types/node": "22.13.4",
+    "@types/react": "19.0.10",
     "eslint": "^9",
     "eslint-config-next": "15.1.7",
-    "@eslint/eslintrc": "^3"
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "5.7.3"
   }
 }
