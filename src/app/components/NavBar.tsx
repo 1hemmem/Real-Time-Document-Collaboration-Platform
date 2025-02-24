@@ -49,9 +49,11 @@ const NavBar = async () => {
               </NavigationMenuItem>
             ) : (
               <NavigationMenuItem>
-                <Button variant="outline" className="font-medium">
-                  Sign in
-                </Button>
+                <Link href="/login" legacyBehavior passHref>
+                  <Button variant="outline" className="font-medium">
+                    Sign in
+                  </Button>
+                </Link>
               </NavigationMenuItem>
             )}
           </div>
