@@ -42,8 +42,8 @@ export default async function Home() {
   }));
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <Card className="bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="container mx-auto py-10 px-4 ">
+      <Card className="bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-none shadow-none">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-6">
           <CardTitle className="text-2xl font-bold font-mono">
             My Documents
