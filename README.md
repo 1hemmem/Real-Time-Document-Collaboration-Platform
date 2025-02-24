@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Real-Time Document Collaboration Platform
+
+A modern, real-time document collaboration platform built with Next.js, Supabase, and Liveblocks. This application allows users to create, edit, and collaborate on documents in real-time with other users.
+
+## Features
+
+- **Real-time Collaboration**: Multiple users can edit documents simultaneously
+- **User Authentication**: Secure authentication system using Supabase
+- **Rich Text Editor**: Feature-rich document editor with formatting options
+- **Document Management**: Create, access, and manage multiple documents
+- **User Profiles**: Customizable user profiles with avatars and preferences
+- **Access Control**: Granular control over document access and permissions
+
+## Tech Stack
+
+- **Frontend Framework**: Next.js 15 (App Router)
+- **Authentication**: Supabase Auth
+- **Database**: Supabase PostgreSQL
+- **Real-time Engine**: Liveblocks
+- **UI Components**:
+  - Shadcn/ui
+  - TipTap Editor
+  - Tailwind CSS
+- **Type Safety**: TypeScript
+
+## Project Structure
+
+```
+├── app
+│   ├── api             # api endpoints (liveblocks-auth, add-user-to-room, create-room)
+│   ├── (auth)          # the email confirmation module
+│   ├── components      # Some Costume ui components
+│   ├── editor          # Editor page with dynamic routing (depends on the room Id)
+│   ├── error           # Error page
+│   ├── login           # Login and signup page with utility fucntions (actions.ts)
+│   ├── playground      # Document management
+│   ├── setup_profile   # Profile setup
+│   ├── styles
+│   ├── no-access       # No access page
+│   ├── utils 
+│   ├── layout.jsx
+│   ├── page.jsx
+│   └── middleware.ts
+├── components          # shadcn components
+│   ├── login-form.tsx
+│   ├── signup-form.tsx
+│   └── ui
+└── lib
+    └── utils.ts
+```
+
+## Key Components
+
+- **Editor**: Real-time collaborative editor built with TipTap and Liveblocks
+- **Room**: Manages real-time connections and user presence
+- **Authentication Flow**: Complete auth system with login, signup, and profile setup
+- **Document Management**: Interface for creating and managing documents
+- **Access Control**: System for managing document permissions and user access
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/real-time-document-collaboration.git
+cd real-time-document-collaboration
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install docker if not installed [Docker](https://docs.docker.com/engine/install/)
+3. Build the docker Image
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+docker build -t <your-image-name> .
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Run the docker container
 
-## Learn More
+```bash
+docker run -p 3000:3000 <your-image-name>
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Environment Setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The application requires the following services:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. **Supabase Project**
 
-## Deploy on Vercel
+   - Authentication setup
+   - Database with required tables (profiles, etc.)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2. **Liveblocks Account**
+   - API key for real-time collaboration
+   - Room management setup
