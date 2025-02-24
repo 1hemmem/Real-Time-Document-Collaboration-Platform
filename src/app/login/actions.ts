@@ -19,18 +19,17 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data)
 
   if (error) {
-    redirect('/error')
+    console.log(error)
+    return { error: error.message }
   }
 
   revalidatePath('/', 'layout')
-  redirect('/')
+  redirect('/playground')
 }
 
 export async function signup(formData: FormData) {
   const supabase = await createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -39,10 +38,22 @@ export async function signup(formData: FormData) {
   console.log(data)
   const { error } = await supabase.auth.signUp(data)
   if (error) {
+    console.log("sign up error")
     console.log(error)
-    redirect('/error')
+    return { error: error.message }
   }
-  
-  revalidatePath('/', 'layout')
+  else {
+    console.log("sign up successful")
+    // revalidatePath('/', 'layout')
+    // redirect('/')
+  }
+}
+
+export async function signout() {
+  const supabase = await createClient()
+  const { error } = await supabase.auth.signOut()
+  if (error) {
+    console.log(error)
+  }
   redirect('/')
 }

@@ -1,52 +1,17 @@
-import { Liveblocks } from "@liveblocks/node";
-import Link from "next/link";
-import { redirect } from 'next/navigation'
-import CreateRoom from "./components/CreateRoom";
-import { createClient } from './utils/supabase/server'
-
+import { createClient } from "./utils/supabase/server";
+import { Welcome } from "./components/Welcome";
 export default async function Home() {
+  const supabase = await createClient();
 
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.getUser()
+  const { data, error } = await supabase.auth.getUser();
+  let isloggedin = true
   if (error || !data?.user) {
-    redirect('/login')
+    isloggedin = false
   }
-  const liveblocks = new Liveblocks({
-    secret: process.env.LIVEBLOCKS_SECRET,
-  });
-  const userid = data.user.id
-  
-  
-  const { data: rooms } = await liveblocks.getRooms({userId: userid});
-  console.log("rooms")
-  console.log(rooms)
-  return <div>
-    <p>Hello {data.user.email}</p>
-    <br /><br />  
-    <div>
-      {rooms.map((room, index) => {
 
-        const createdAt = new Date(room.createdAt).toLocaleString();
-        const lastConnectionAt = new Date(room.lastConnectionAt).toLocaleString();
-          
-          return (
-            <div key={index}>
-              <Link href={`/editor/${room.id}`}>
-                <br />
-                <li>{room.id}</li>
-                <li>Created At: {createdAt}</li>
-                <li>Last Connection At: {lastConnectionAt}</li>
-              </Link>
-            </div>
-          );
-        
-      })}
+  return (
+    <div className="pt-20">
+      <Welcome isloggedin={isloggedin}/>
     </div>
-
-    <br />
-    <br />
-
-    <CreateRoom />
-  </div>
+  );
 }
