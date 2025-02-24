@@ -10,7 +10,19 @@ export default async function SetupProfile({
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
+  // if user already has a profile, redirect to playground
+  // avatar is found in profile table
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("username")
+    .eq("db_user_id", data?.user?.id);
+    
+  if (profile?.[0]?.username) {
+    redirect("/");
+  }
+
   if (error || !data?.user) {
+      if (error || !data?.user) {
     redirect("/login");
   }
 
@@ -22,4 +34,5 @@ export default async function SetupProfile({
       </div>
     </div>
   );
+}
 }
