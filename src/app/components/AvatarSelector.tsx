@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
 
 export function AvatarSelector({
   avatars,
@@ -44,7 +45,7 @@ export function AvatarSelector({
                   : "border-gray-300"
               }`}
             >
-              <img
+              <Image
                 src={avatar.url}
                 alt={`Avatar ${avatar.id}`}
                 className={`h-12 w-12 rounded-3xl ${
