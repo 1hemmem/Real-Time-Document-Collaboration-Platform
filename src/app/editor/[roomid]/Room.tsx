@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function UsersList() {
   const users = useOthers();
+
   return (
     <div className="flex gap-3 p-4 rounded-lg">
       {users.map((user, index) => (
