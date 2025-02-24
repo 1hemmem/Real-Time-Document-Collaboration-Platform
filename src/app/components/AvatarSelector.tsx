@@ -10,11 +10,12 @@ export function AvatarSelector({
   name,
 }: {
   avatars: { id: string; url: string }[];
-  name: string; 
+  name: string;
 }) {
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
+
   const handleAvatarClick = (avatarId: string) => {
-    console.log(selectedAvatar)
+    console.log(selectedAvatar);
     setSelectedAvatar(avatarId);
   };
 
@@ -27,10 +28,10 @@ export function AvatarSelector({
       />
       <div className="grid grid-cols-5 gap-2">
         {avatars.map((avatar) => (
-          <div key={avatar.url} className="relative">
+          <div key={avatar.id} className="relative">
             <input
               type="radio"
-              id={avatar.url}
+              id={avatar.id}
               name="avatar"
               value={avatar.url}
               className="sr-only"
@@ -38,23 +39,23 @@ export function AvatarSelector({
               checked={selectedAvatar === avatar.id}
             />
             <Label
-              htmlFor={avatar.url}
-              className={`flex aspect-square cursor-pointer items-center justify-center rounded-3xl ${
+              htmlFor={avatar.id}
+              className={`flex aspect-square cursor-pointer items-center justify-center rounded-3xl border-2 ${
                 selectedAvatar === avatar.id
-                  ? "border-2 border-gray- "
+                  ? "border-gray-900" // Use a darker border for selected avatar
                   : "border-gray-300"
               }`}
             >
               <Image
                 src={avatar.url}
                 alt={`Avatar ${avatar.id}`}
-                className={`h-12 w-12 rounded-3xl ${
-                  selectedAvatar === avatar.url ? "opacity-90" : ""
-                }`}
+                width={96} // Required for Next.js Image component
+                height={96} // Required for Next.js Image component
+                className="h-12 w-12 rounded-3xl object-cover" // Ensure the image fits properly
               />
               {selectedAvatar === avatar.id && (
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Check className="h-6 w-6 text-black" />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-3xl">
+                  <Check className="h-6 w-6 text-white" /> {/* Use white for better visibility */}
                 </div>
               )}
             </Label>
