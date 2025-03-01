@@ -23,9 +23,7 @@ export default async function ProfileButton() {
     .single();
   console.log(profile);
   if (profile.error) {
-    return <div>
-        
-    </div>;
+    return <div></div>;
   } else {
     return (
       <div>

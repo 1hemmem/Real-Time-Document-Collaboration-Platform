@@ -21,11 +21,7 @@ export function AvatarSelector({
 
   return (
     <>
-      <input
-        type="hidden"
-        name={name}
-        value={selectedAvatar || ""}
-      />
+      <input type="hidden" name={name} value={selectedAvatar || ""} />
       <div className="grid grid-cols-5 gap-2">
         {avatars.map((avatar) => (
           <div key={avatar.id} className="relative">
@@ -55,7 +51,8 @@ export function AvatarSelector({
               />
               {selectedAvatar === avatar.id && (
                 <div className="absolute inset-0 flex items-center justify-center bg-black/20 rounded-3xl">
-                  <Check className="h-6 w-6 text-white" /> {/* Use white for better visibility */}
+                  <Check className="h-6 w-6 text-white" />{" "}
+                  {/* Use white for better visibility */}
                 </div>
               )}
             </Label>

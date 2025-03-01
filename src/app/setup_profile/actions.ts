@@ -10,7 +10,7 @@ export async function setupProfile(formData: FormData) {
   const userdata = await supabase.auth.getUser();
   const userid = userdata.data.user.id;
   const avatar = formData.getAll("avatar")[1];
-  
+
   const data = {
     db_user_id: userid,
     first_name: formData.get("first_name") as string,
@@ -23,9 +23,15 @@ export async function setupProfile(formData: FormData) {
   console.log(data);
   const { error } = await supabase.from("profiles").insert(data);
   if (error) {
-    if (error.message === 'duplicate key value violates unique constraint "profiles_username_key"') { 
+    if (
+      error.message ===
+      'duplicate key value violates unique constraint "profiles_username_key"'
+    ) {
       return { error: "Username already exists" };
-    } else if (error.message === 'duplicate key value violates unique constraint "profiles_db_user_id_key"') {
+    } else if (
+      error.message ===
+      'duplicate key value violates unique constraint "profiles_db_user_id_key"'
+    ) {
       return { error: "You already have an account" };
     } else {
       return { error: error.message };

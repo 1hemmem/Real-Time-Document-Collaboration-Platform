@@ -1,19 +1,23 @@
 "use client";
 
-import { useLiveblocksExtension, FloatingToolbar, Toolbar } from "@liveblocks/react-tiptap";
+import {
+  useLiveblocksExtension,
+  FloatingToolbar,
+  Toolbar,
+} from "@liveblocks/react-tiptap";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
-import TextAlign from '@tiptap/extension-text-align';
-import Highlight from '@tiptap/extension-highlight';
-import TaskList from '@tiptap/extension-task-list';
-import TaskItem from '@tiptap/extension-task-item';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import { createLowlight } from 'lowlight';
+import TextAlign from "@tiptap/extension-text-align";
+import Highlight from "@tiptap/extension-highlight";
+import TaskList from "@tiptap/extension-task-list";
+import TaskItem from "@tiptap/extension-task-item";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { createLowlight } from "lowlight";
 
 const lowlight = createLowlight();
 
-export function Editor({children}) {
+export function Editor({ children }) {
   const liveblocks = useLiveblocksExtension();
 
   const editor = useEditor({
@@ -35,7 +39,7 @@ export function Editor({children}) {
         levels: [1, 2, 3],
       }),
       TextAlign.configure({
-        types: ['heading', 'paragraph'],
+        types: ["heading", "paragraph"],
       }),
       Highlight,
       TaskList,
@@ -46,10 +50,10 @@ export function Editor({children}) {
         lowlight,
       }),
     ],
-    content: '<h1>Start writing...</h1>',
+    content: "<h1>Start writing...</h1>",
     editorProps: {
       attributes: {
-        class: 'focus:outline-none',
+        class: "focus:outline-none",
       },
     },
   });
@@ -59,7 +63,7 @@ export function Editor({children}) {
   }
 
   return (
-    <div className=""> 
+    <div className="">
       <div className="border rounded-lg shadow-lg bg-white">
         <div className="flex items-center justify-between p-2 border-b">
           <div className="flex-1">
@@ -70,25 +74,33 @@ export function Editor({children}) {
                 <Toolbar.SectionInline />
                 <Toolbar.Separator />
                 <button
-                  onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                  onClick={() =>
+                    editor.chain().focus().setTextAlign("left").run()
+                  }
                   className={`p-2 rounded hover:bg-gray-100 ${
-                    editor.isActive({ textAlign: 'left' }) ? 'bg-gray-200' : ''
+                    editor.isActive({ textAlign: "left" }) ? "bg-gray-200" : ""
                   }`}
                 >
                   Left
                 </button>
                 <button
-                  onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                  onClick={() =>
+                    editor.chain().focus().setTextAlign("center").run()
+                  }
                   className={`p-2 rounded hover:bg-gray-100 ${
-                    editor.isActive({ textAlign: 'center' }) ? 'bg-gray-200' : ''
+                    editor.isActive({ textAlign: "center" })
+                      ? "bg-gray-200"
+                      : ""
                   }`}
                 >
                   Center
                 </button>
                 <button
-                  onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                  onClick={() =>
+                    editor.chain().focus().setTextAlign("right").run()
+                  }
                   className={`p-2 rounded hover:bg-gray-100 ${
-                    editor.isActive({ textAlign: 'right' }) ? 'bg-gray-200' : ''
+                    editor.isActive({ textAlign: "right" }) ? "bg-gray-200" : ""
                   }`}
                 >
                   Right
@@ -97,11 +109,9 @@ export function Editor({children}) {
               </div>
             </Toolbar>
           </div>
-          <div className="flex items-center ml-4">
-            {children}
-          </div>
+          <div className="flex items-center ml-4">{children}</div>
         </div>
-        
+
         <style>
           {`
             .editor {
@@ -143,13 +153,10 @@ export function Editor({children}) {
             }
           `}
         </style>
-        
-        <EditorContent 
-          editor={editor} 
-          className="editor"
-        />
-        
-        <FloatingToolbar 
+
+        <EditorContent editor={editor} className="editor" />
+
+        <FloatingToolbar
           editor={editor}
           className="bg-white shadow-lg border rounded-lg"
         />

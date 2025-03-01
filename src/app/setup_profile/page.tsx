@@ -16,14 +16,14 @@ export default async function SetupProfile({
     .from("profiles")
     .select("username")
     .eq("db_user_id", data?.user?.id);
-  
+
   if (profile?.[0]?.username) {
-    console.log("user already has a profile")
+    console.log("user already has a profile");
     redirect("/");
   }
 
-  if (error || !data?.user) {      
-    console.log("user not found")
+  if (error || !data?.user) {
+    console.log("user not found");
     redirect("/login");
   }
 
