@@ -16,6 +16,10 @@ import AddUserToRoom from "@/app/components/AddUserToRoom";
 
 type tParams = Promise<{ roomid: string }>;
 
+
+
+
+
 export default async function Home(props: { params: tParams }) {
   const supabase = await createClient();
 
