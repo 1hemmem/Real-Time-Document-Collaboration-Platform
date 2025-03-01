@@ -17,6 +17,7 @@ function UsersList() {
 
   return (
     <div className="flex gap-3 p-4 rounded-lg">
+      {" "}
       {users.map((user, index) => (
         <div key={index} className="relative group">
           <Avatar className="w-12 h-12 border border-gray-300">
@@ -41,7 +42,9 @@ export function Room({ roomid }: { roomid: string }) {
   useEffect(() => {
     const checkAuthorization = async () => {
       try {
-        const response = await fetch("/api/liveblocks-auth", { method: "POST" });
+        const response = await fetch("/api/liveblocks-auth", {
+          method: "POST",
+        });
         if (response.status === 403) {
           router.replace("/no-access");
           return;
