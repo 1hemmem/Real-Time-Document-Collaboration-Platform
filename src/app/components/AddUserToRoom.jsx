@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { UserPlus } from "lucide-react";
+import { toast } from "sonner";
 
 export default function AddUserToRoomDialog({ roomid }) {
   const router = useRouter();
@@ -22,9 +23,14 @@ export default function AddUserToRoomDialog({ roomid }) {
   const [open, setOpen] = useState(false);
 
   const handleAddUser = async () => {
-    if (!username.trim()) return;
+    if (!username.trim()) {
+      toast.error("Please enter a username");
+      return;
+    }
 
     setIsLoading(true);
+    const loadingToast = toast.loading("Adding user to document...");
+
     try {
       const response = await fetch("/api/add-user-to-room", {
         method: "POST",
@@ -35,16 +41,22 @@ export default function AddUserToRoomDialog({ roomid }) {
         }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to add user to room");
+        toast.dismiss(loadingToast);
+        toast.error(result.error || "Failed to add user to room");
+        return;
       }
 
-      const data = await response.json();
+      toast.dismiss(loadingToast);
+      toast.success("User added successfully!");
       setOpen(false);
       setUsername("");
       router.refresh();
-      console.log(data);
     } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("An unexpected error occurred");
       console.error("Failed to add user:", error);
     } finally {
       setIsLoading(false);

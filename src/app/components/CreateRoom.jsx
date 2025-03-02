@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -26,6 +27,7 @@ export default function NewDocumentDialog() {
 
     setIsLoading(true);
     try {
+      const loadingToast = toast.loading("Creating document...");
       const response = await fetch("/api/create-room", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -33,15 +35,20 @@ export default function NewDocumentDialog() {
       });
 
       if (!response.ok) {
+        toast.error("Failed to create document");
         throw new Error("Failed to create document");
+      } else {
+        toast.dismiss(loadingToast);
+        toast.success("The document is created successfully");
+        const data = await response.json();
+        setOpen(false);
+        setTitle("");
+        router.refresh();
+        console.log(data);
       }
-
-      const data = await response.json();
-      setOpen(false);
-      setTitle("");
-      router.refresh();
-      console.log(data);
     } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error(error);
       console.error("Failed to create document:", error);
     } finally {
       setIsLoading(false);

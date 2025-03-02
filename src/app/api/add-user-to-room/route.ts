@@ -8,15 +8,16 @@ const liveblocks = new Liveblocks({
 export async function POST(request: Request) {
   const supabase = await createClient();
   console.log("Request received");
-  console.log(request);
+
   try {
     const body = await request.json();
     const { roomId, username } = body;
 
+    // Validate input
     if (!roomId || !username) {
       return new Response(
-        JSON.stringify({ error: "roomId and username are required" }),
-        { status: 400 }
+        JSON.stringify({ error: "Room ID and username are required" }),
+        { status: 400 },
       );
     }
 
@@ -29,9 +30,10 @@ export async function POST(request: Request) {
 
     if (error) {
       console.error("Profile fetch error:", error);
-      return new Response(JSON.stringify({ error: "Profile fetch failed" }), {
-        status: 500,
-      });
+      return new Response(
+        JSON.stringify({ error: "Failed to fetch user profile" }),
+        { status: 500 },
+      );
     }
 
     if (!data) {
@@ -43,7 +45,7 @@ export async function POST(request: Request) {
     const userId = data.db_user_id;
 
     // Add user to Liveblocks room
-    const response = await fetch(
+    const liveblocksResponse = await fetch(
       `https://api.liveblocks.io/v2/rooms/${roomId}`,
       {
         method: "POST",
@@ -54,27 +56,28 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           usersAccesses: { [userId]: ["room:read", "room:presence:write"] },
         }),
-      }
+      },
     );
 
-    if (!response.ok) {
-      const errorData = await response.json();
+    if (!liveblocksResponse.ok) {
+      const errorData = await liveblocksResponse.json();
       console.error("Liveblocks API error:", errorData);
       return new Response(
         JSON.stringify({
-          error: "Failed to add user to room",
+          error: "Failed to add user to the room",
           details: errorData,
         }),
-        { status: response.status }
+        { status: liveblocksResponse.status },
       );
     }
 
-    const room = await response.json();
+    const room = await liveblocksResponse.json();
     return new Response(JSON.stringify({ roomId: room.id }), { status: 200 });
   } catch (err) {
     console.error("Unexpected error:", err);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ error: "An unexpected error occurred" }),
+      { status: 500 },
+    );
   }
 }
