@@ -40,7 +40,7 @@ export async function signup(formData: FormData) {
     console.log(error);
     return { error: error.message };
   } else {
-    console.log("sign up successful");
+    return { info: "Check your email for a verification link." };
   }
 }
 

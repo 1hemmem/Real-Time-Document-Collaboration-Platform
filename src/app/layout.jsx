@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./styles/globals.css";
+import { ToasterProvider } from "./components/toaster-provider";
 import "@liveblocks/react-ui/styles.css";
 import "@liveblocks/react-tiptap/styles.css";
 import React from "react";
@@ -29,6 +30,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased `}
       >
+        <ToasterProvider />
         <NavBar />
         <main className="items-center justify-center">{children}</main>
       </body>
