@@ -3,7 +3,6 @@ import { type NextRequest } from "next/server";
 
 import { createClient } from "../../utils/supabase/server";
 import { redirect } from "next/navigation";
-import { error } from "console";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

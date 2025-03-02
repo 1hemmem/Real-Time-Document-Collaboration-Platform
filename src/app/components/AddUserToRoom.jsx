@@ -15,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { UserPlus } from "lucide-react";
 import { toast } from "sonner";
+import { z } from "zod";
 
 export default function AddUserToRoomDialog({ roomid }) {
   const router = useRouter();
@@ -22,10 +23,13 @@ export default function AddUserToRoomDialog({ roomid }) {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const User = z.object({
+    username: z.string(),
+  });
+
   const handleAddUser = async () => {
-    if (!username.trim()) {
+    if (!User.parse({ username: username })) {
       toast.error("Please enter a username");
-      return;
     }
 
     setIsLoading(true);

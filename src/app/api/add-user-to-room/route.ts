@@ -1,5 +1,6 @@
 import { createClient } from "@/app/utils/supabase/server";
 import { Liveblocks } from "@liveblocks/node";
+import { z } from "zod";
 
 const liveblocks = new Liveblocks({
   secret: process.env.LIVEBLOCKS_SECRET,
@@ -9,12 +10,16 @@ export async function POST(request: Request) {
   const supabase = await createClient();
   console.log("Request received");
 
+  const User = z.object({
+    username: z.string(),
+    room: z.string(),
+  });
   try {
     const body = await request.json();
     const { roomId, username } = body;
 
     // Validate input
-    if (!roomId || !username) {
+    if (!User.parse({ username: username, room: roomId })) {
       return new Response(
         JSON.stringify({ error: "Room ID and username are required" }),
         { status: 400 },
