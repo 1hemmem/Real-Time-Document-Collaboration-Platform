@@ -11,6 +11,7 @@ import {
 import { Editor } from "../../components/Editor";
 import { BarLoader } from "../../components/BarLoader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "sonner";
 
 function UsersList() {
   const users = useOthers();
@@ -50,6 +51,10 @@ export function Room({ roomid }: { roomid: string }) {
           return;
         }
         setAuthorized(true);
+        if (response.status === 501) {
+          router.replace("/setup_profile");
+          toast.info("you need to setup your profile first");
+        }
       } catch (error) {
         console.error("Authorization check failed:", error);
         router.replace("/no-access");

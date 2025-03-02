@@ -36,7 +36,6 @@ export default function NewDocumentDialog() {
 
       if (!response.ok) {
         toast.error("Failed to create document");
-        throw new Error("Failed to create document");
       } else {
         toast.dismiss(loadingToast);
         toast.success("The document is created successfully");
