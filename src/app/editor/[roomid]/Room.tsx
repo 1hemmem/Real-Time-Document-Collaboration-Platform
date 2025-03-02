@@ -56,7 +56,6 @@ export function Room({ roomid }: { roomid: string }) {
           toast.info("you need to setup your profile first");
         }
       } catch (error) {
-        console.error("Authorization check failed:", error);
         router.replace("/no-access");
       }
     };

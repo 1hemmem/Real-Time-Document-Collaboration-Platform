@@ -8,8 +8,6 @@ const liveblocks = new Liveblocks({
 
 export async function POST(request: Request) {
   try {
-    console.log("Request received");
-
     // Get roomId from referer
     const referer = request.headers.get("referer");
     if (!referer) {
@@ -18,7 +16,6 @@ export async function POST(request: Request) {
 
     const list = referer.split("/");
     const roomId = decodeURIComponent(list[list.length - 1]);
-    console.log("Attempting to access roomId:", roomId);
 
     // Get user data
     const supabase = await createClient();
@@ -54,17 +51,8 @@ export async function POST(request: Request) {
 
     try {
       const room = await liveblocks.getRoom(roomId);
-      console.log("Room data:", {
-        id: room.id,
-        type: room.type,
-        metadata: room.metadata,
-        defaultAccesses: room.defaultAccesses,
-        usersAccesses: room.usersAccesses,
-        groupsAccesses: room.groupsAccesses,
-      });
 
       if (!room.usersAccesses) {
-        console.log("Room has no usersAccesses defined");
         return new Response(JSON.stringify({ error: profile.error.message }), {
           status: 501,
         });
@@ -75,25 +63,17 @@ export async function POST(request: Request) {
         room.usersAccesses[data.user.id] ||
         (room.defaultAccesses as string[]).includes("room:presence:write")
       ) {
-        console.log(
-          `Access granted for user ${data.user.id} to room ${roomId}`,
-        );
         session.allow(roomId, [
           "room:read",
           "room:presence:write",
           "room:write",
         ]);
       } else {
-        console.log(
-          `User ${data.user.id} not found in room.usersAccesses:`,
-          room.usersAccesses,
-        );
         return new Response(JSON.stringify({ redirect: "/no-access" }), {
           status: 403,
         });
       }
     } catch (roomError) {
-      console.error("Error getting room data:", roomError);
       return new Response(JSON.stringify({ error: roomError.message }), {
         status: 502,
       });
@@ -103,7 +83,6 @@ export async function POST(request: Request) {
     const { status, body } = await session.authorize();
     return new Response(body, { status });
   } catch (error) {
-    console.error("Error in POST handler:", error);
     return new Response(
       JSON.stringify({
         error: error.message,

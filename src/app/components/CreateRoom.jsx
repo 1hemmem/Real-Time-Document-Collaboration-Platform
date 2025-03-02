@@ -43,12 +43,10 @@ export default function NewDocumentDialog() {
         setOpen(false);
         setTitle("");
         router.refresh();
-        console.log(data);
       }
     } catch (error) {
       toast.dismiss(loadingToast);
       toast.error(error);
-      console.error("Failed to create document:", error);
     } finally {
       setIsLoading(false);
     }

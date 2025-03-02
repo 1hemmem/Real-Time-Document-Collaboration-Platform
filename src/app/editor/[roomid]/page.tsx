@@ -17,8 +17,7 @@ export default async function Home(props: { params: tParams }) {
   const { data: ProfileData, error: ProfileError } = await supabase
     .from("profiles")
     .select("*");
-  console.log("profile data");
-  console.log(ProfileData);
+
   if (ProfileError || !ProfileData) {
     redirect("/setup_profile");
   }

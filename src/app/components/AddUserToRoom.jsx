@@ -61,7 +61,6 @@ export default function AddUserToRoomDialog({ roomid }) {
     } catch (error) {
       toast.dismiss(loadingToast);
       toast.error("An unexpected error occurred");
-      console.error("Failed to add user:", error);
     } finally {
       setIsLoading(false);
     }

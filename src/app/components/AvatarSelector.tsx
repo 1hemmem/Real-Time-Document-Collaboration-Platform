@@ -15,7 +15,6 @@ export function AvatarSelector({
   const [selectedAvatar, setSelectedAvatar] = useState<string | null>(null);
 
   const handleAvatarClick = (avatarId: string) => {
-    console.log(selectedAvatar);
     setSelectedAvatar(avatarId);
   };
 

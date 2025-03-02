@@ -19,8 +19,6 @@ export async function setupProfile(formData: FormData) {
     color: formData.get("color") as string,
     avatar: avatar as string,
   };
-  console.log("setup profile");
-  console.log(data);
   const { error } = await supabase.from("profiles").insert(data);
   if (error) {
     if (

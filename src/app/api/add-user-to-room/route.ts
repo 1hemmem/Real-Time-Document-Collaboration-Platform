@@ -8,7 +8,6 @@ const liveblocks = new Liveblocks({
 
 export async function POST(request: Request) {
   const supabase = await createClient();
-  console.log("Request received");
 
   const User = z.object({
     username: z.string(),
@@ -34,7 +33,6 @@ export async function POST(request: Request) {
       .single();
 
     if (error) {
-      console.error("Profile fetch error:", error);
       return new Response(
         JSON.stringify({ error: "Failed to fetch user profile" }),
         { status: 500 },
@@ -66,7 +64,6 @@ export async function POST(request: Request) {
 
     if (!liveblocksResponse.ok) {
       const errorData = await liveblocksResponse.json();
-      console.error("Liveblocks API error:", errorData);
       return new Response(
         JSON.stringify({
           error: "Failed to add user to the room",
@@ -79,7 +76,6 @@ export async function POST(request: Request) {
     const room = await liveblocksResponse.json();
     return new Response(JSON.stringify({ roomId: room.id }), { status: 200 });
   } catch (err) {
-    console.error("Unexpected error:", err);
     return new Response(
       JSON.stringify({ error: "An unexpected error occurred" }),
       { status: 500 },

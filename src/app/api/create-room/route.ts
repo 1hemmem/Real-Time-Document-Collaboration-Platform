@@ -11,7 +11,6 @@ export async function POST(request: Request) {
   // Authenticate user with Supabase
   const { data, error } = await supabase.auth.getUser();
   if (error) {
-    console.error("Supabase auth error:", error);
     return new Response(JSON.stringify({ error: "Authentication failed" }), {
       status: 401,
     });
@@ -32,7 +31,6 @@ export async function POST(request: Request) {
     // Return the room ID or full room object
     return new Response(JSON.stringify({ roomId: room.id }), { status: 200 });
   } catch (err) {
-    console.error("Liveblocks createRoom error:", err);
     return new Response(JSON.stringify({ error: "Room creation failed" }), {
       status: 500,
     });

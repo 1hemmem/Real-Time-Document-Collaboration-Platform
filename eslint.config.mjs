@@ -22,6 +22,7 @@ export default [
     },
     rules: {
       semi: ["error", "always"],
+      "no-console": ["warn"],
       "react/react-in-jsx-scope": "off",
     },
     settings: {

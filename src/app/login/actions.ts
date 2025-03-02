@@ -12,12 +12,9 @@ export async function login(formData: FormData) {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
-  console.log("login");
-  console.log(data);
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    console.log(error);
     return { error: error.message };
   }
 
@@ -32,12 +29,8 @@ export async function signup(formData: FormData) {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
-  console.log("sign up");
-  console.log(data);
   const { error } = await supabase.auth.signUp(data);
   if (error) {
-    console.log("sign up error");
-    console.log(error);
     return { error: error.message };
   } else {
     return { info: "Check your email for a verification link." };
@@ -48,7 +41,7 @@ export async function signout() {
   const supabase = await createClient();
   const { error } = await supabase.auth.signOut();
   if (error) {
-    console.log(error);
+    return { error: error.message };
   }
   redirect("/");
 }
