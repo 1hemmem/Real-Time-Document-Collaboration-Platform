@@ -16,13 +16,12 @@ export default async function SetupProfile({
     .from("profiles")
     .select("username")
     .eq("db_user_id", data?.user?.id);
-    
+
   if (profile?.[0]?.username) {
     redirect("/");
   }
 
   if (error || !data?.user) {
-      if (error || !data?.user) {
     redirect("/login");
   }
 
@@ -34,5 +33,4 @@ export default async function SetupProfile({
       </div>
     </div>
   );
-}
 }

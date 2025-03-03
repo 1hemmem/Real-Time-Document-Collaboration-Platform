@@ -5,15 +5,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AddUserToRoom from "@/app/components/AddUserToRoom";
 
-// type tParams = Promise<{ slug: string[] }>;
-
-// export async function Challenge(props: { params: tParams }) {
-//   const { slug } = await props.params;
-//   const productID = slug[1];
-
-//   // other code here
-// }
-
 type tParams = Promise<{ roomid: string }>;
 
 export default async function Home(props: { params: tParams }) {
@@ -23,7 +14,13 @@ export default async function Home(props: { params: tParams }) {
   if (error || !data?.user) {
     redirect("/login");
   }
+  const { data: ProfileData, error: ProfileError } = await supabase
+    .from("profiles")
+    .select("*");
 
+  if (ProfileError || !ProfileData) {
+    redirect("/setup_profile");
+  }
   const { roomid } = await props.params;
 
   return (

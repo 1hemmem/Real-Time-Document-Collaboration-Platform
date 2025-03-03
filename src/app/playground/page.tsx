@@ -16,10 +16,10 @@ export default async function Home() {
   const liveblocks = new Liveblocks({
     secret: process.env.LIVEBLOCKS_SECRET,
   });
-  
+
   const userid = data.user.id;
   const { data: rooms } = await liveblocks.getRooms({ userId: userid });
-  
+
   const columns = [
     {
       header: "Document Name",
@@ -56,7 +56,9 @@ export default async function Home() {
               <DataTable columns={columns} data={rowdata} />
             ) : (
               <div className="text-center py-8 text-muted-foreground">
-                <p>No documents yet. Create your first document to get started!</p>
+                <p>
+                  No documents yet. Create your first document to get started!
+                </p>
               </div>
             )}
           </div>

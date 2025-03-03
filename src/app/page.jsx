@@ -1,17 +1,18 @@
 import { createClient } from "./utils/supabase/server";
 import { Welcome } from "./components/Welcome";
+import React from "react";
 export default async function Home() {
   const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
-  let isloggedin = true
+  let isloggedin = true;
   if (error || !data?.user) {
-    isloggedin = false
+    isloggedin = false;
   }
 
   return (
     <div className="pt-20">
-      <Welcome isloggedin={isloggedin}/>
+      <Welcome isloggedin={isloggedin} />
     </div>
   );
 }

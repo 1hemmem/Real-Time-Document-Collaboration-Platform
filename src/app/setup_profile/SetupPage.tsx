@@ -1,4 +1,6 @@
 "use client";
+
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,8 +18,6 @@ import { Loader2 } from "lucide-react";
 
 export function SetupPage() {
   const [loading, setLoading] = useState(false);
-  const [kacherror, setKachError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   const avatars = Array.from({ length: 15 }, (_, i) => ({
     id: `avatar-${i + 1}`,
@@ -27,19 +27,27 @@ export function SetupPage() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
-    setKachError(null);
-    setSuccess(null);
+
+    const loadingToast = toast.loading("Setting up your profile...");
 
     const formData = new FormData(event.currentTarget);
 
     try {
       const result = await setupProfile(formData);
+
+      toast.dismiss(loadingToast);
+
       if (result?.error) {
-        setKachError(result.error);
-      } else {
-        setSuccess("Profile setup successful");
-        window.location.href = "/";
+        toast.error(result.error);
+      } else if (result?.success) {
+        toast.success(result.success);
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1500);
       }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -59,15 +67,30 @@ export function SetupPage() {
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="first_name">First Name</Label>
-                <Input id="first_name" name="first_name" required />
+                <Input
+                  id="first_name"
+                  name="first_name"
+                  required
+                  disabled={loading}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="last_name">Last Name</Label>
-                <Input id="last_name" name="last_name" required />
+                <Input
+                  id="last_name"
+                  name="last_name"
+                  required
+                  disabled={loading}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="username">Username</Label>
-                <Input id="username" name="username" required />
+                <Input
+                  id="username"
+                  name="username"
+                  required
+                  disabled={loading}
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="avatar">Select Avatar</Label>
@@ -75,10 +98,14 @@ export function SetupPage() {
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="color">Preferred Color</Label>
-                <Input id="color" name="color" type="color" required />
+                <Input
+                  id="color"
+                  name="color"
+                  type="color"
+                  required
+                  disabled={loading}
+                />
               </div>
-              {kacherror && <p className="text-red-500 text-sm">{kacherror}</p>}
-              {success && <p className="text-green-500 text-sm">{success}</p>}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <Loader2 className="animate-spin h-5 w-5" />
@@ -86,12 +113,6 @@ export function SetupPage() {
                   "Setup Profile"
                 )}
               </Button>
-              {/* <Button
-                type="submit"
-                className="w-full bg-white text-black hover:bg-gray-100"
-              >
-                Next
-              </Button> */}
             </div>
           </form>
         </CardContent>

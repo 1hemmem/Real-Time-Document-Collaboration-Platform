@@ -14,29 +14,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signup } from "../app/login/actions";
 import { Loader2 } from "lucide-react";
-
+import { toast } from "sonner";
 export function SignupForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
-    setError(null);
-    setSuccess(null);
+
+    const loadingToast = toast.loading("Singing up...");
 
     const formData = new FormData(event.currentTarget);
 
     try {
       const result = await signup(formData);
+      toast.dismiss(loadingToast);
       if (result?.error) {
-        setError(result.error);
-      } else {
-        setSuccess("Check your email for a verification link.");
+        toast.error(result.error);
+      } else if (result?.info) {
+        toast.info(result.info);
       }
     } finally {
       setLoading(false);
@@ -76,8 +75,6 @@ export function SignupForm({
                   disabled={loading}
                 />
               </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              {success && <p className="text-green-500 text-sm">{success}</p>}
               <Button
                 type="submit"
                 className="w-full bg-white text-black hover:bg-gray-100"
