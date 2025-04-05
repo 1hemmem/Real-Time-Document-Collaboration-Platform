@@ -2,6 +2,8 @@
 
 A modern, real-time document collaboration platform built with Next.js, Supabase, and Liveblocks. This application allows users to create, edit, and collaborate on documents in real-time with other users.
 
+[Watch the demo here !!](https://youtu.be/hBYfwCrmH4k)
+
 ## Features
 
 - **Real-time Collaboration**: Multiple users can edit documents simultaneously
