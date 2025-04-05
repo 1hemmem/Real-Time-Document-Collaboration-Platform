@@ -21,11 +21,9 @@ export default async function ProfileButton() {
     .select("username, color, avatar")
     .eq("db_user_id", data.user.id)
     .single();
-  console.log(profile);
+
   if (profile.error) {
-    return <div>
-        
-    </div>;
+    return <div></div>;
   } else {
     return (
       <div>

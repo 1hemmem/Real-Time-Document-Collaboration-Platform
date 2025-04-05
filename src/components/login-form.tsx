@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -20,25 +21,29 @@ export function LoginForm({
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
-    setError(null);
-    setSuccess(null);
+
+    const loadingToast = toast.loading("Logging in...");
 
     const formData = new FormData(event.currentTarget);
-    console.log(formData);
 
-    const result = await login(formData);
-    if (result.error) {
-      setError(result.error);
-    } else {
-      setSuccess("Login successful!");
+    try {
+      const result = await login(formData);
+
+      toast.dismiss(loadingToast);
+
+      if (result && result.error) {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.success("Login successful!");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -74,8 +79,6 @@ export function LoginForm({
                   disabled={loading}
                 />
               </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              {success && <p className="text-green-500 text-sm">{success}</p>}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading ? (
                   <Loader2 className="animate-spin h-5 w-5" />

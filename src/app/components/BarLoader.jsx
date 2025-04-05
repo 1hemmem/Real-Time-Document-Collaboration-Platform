@@ -36,4 +36,4 @@ export function BarLoader() {
       </motion.div>
     </div>
   );
-};
+}
